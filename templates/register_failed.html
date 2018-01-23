@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Sign In {% endblock %}
+{% block title %} Register failed {% endblock %}
 
 {% block content %}
 
@@ -15,7 +15,7 @@
 
 body {
     font-family: 'Source Sans Pro', sans-serif;
-    color: white;
+    color: black;
     font-weight: 300;
 }
 
@@ -54,7 +54,7 @@ body :-ms-input-placeholder {
     top: 50%;
     left: 0;
     width: 100%;
-    height: 800px;
+    height: 400px;
     margin-top: -200px;
     overflow: hidden;
 }
@@ -128,21 +128,13 @@ form button:hover {
 
 </style>
 
-
 <div class="wrapper">
     <div class="container">
-        <h1>Register a new account</h1>
-
-        <form class="form" method="POST" action="{{ url_for('handle_register') }}">
-            <input type="email" placeholder="E-Mail" name="reg-email" id="reg-email" required>
-            <input type="text" placeholder="Username" name="reg-username" id="reg-username" required>
-            <input type="password" placeholder="Password" name="reg-password" id="reg-password" required>
-            <input type="password" placeholder="Confirm Password" name="reg-password-confirm"
-                   id="reg-password-confirm" required>
-            <button type="submit" id="login-button">Register</button>
-        </form>
+        <div class="alert-message alert-message-danger">
+            <h4>An error has occured</h4>
+            <p>{{ message }}</p>
+        </div>
     </div>
 </div>
-
 
 {% endblock %}

@@ -6,6 +6,7 @@ from db_handler import DB_Handler
 from werkzeug.security import generate_password_hash, check_password_hash
 from config_handler import *
 from flib import *
+from slib import *
 
 # Flask setup
 app = Flask(__name__)
@@ -97,9 +98,33 @@ def login():
     return render_template("signin.html")
 
 
-@app.route("/auth/register")
+@app.route("/auth/register", methods=["POST"])
 def handle_register():
-    pass
+    reg_email = clean_text(request.form["reg-email"])
+    reg_username = clean_text(request.form["reg-username"])
+    reg_password = clean_text(request.form["reg-password"])
+    reg_password_confirm = clean_text(request.form["reg-password-confirm"])
+
+    # If the e-mail format was incorrect.
+    if not check_email(reg_email):
+        return render_template("register_failed.html", message="Please enter a valid E-Mail address.")
+
+    # If the username format was incorrect.
+    if not check_text(reg_username):
+        return render_template("register_failed.html", message="Please enter a valid username.")
+
+    # If the password format (i.e. strength) was incorrect.
+    if not check_password(reg_password) or not check_password(reg_password_confirm):
+        return render_template("register_failed.html",
+                               message="Please enter a valid password. You password must at least contain of 6 characters.")
+
+    # If the passwords did not match
+    if not reg_password == reg_password_confirm:
+        return render_template("register_failed", message="The passwords did not match. Please try again.")
+
+    db_handler = DB_Handler()
+
+    return render_template("register_failed.html", message="Register ok. " + str(reg_email))
 
 
 @app.route("/auth/login", methods=["POST"])

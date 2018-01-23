@@ -1,4 +1,5 @@
 import re
+import bleach
 
 """
 #######################
@@ -40,3 +41,13 @@ def check_password_strength(password_text):
             return True, "Das Passwort entspricht unserern Sicherheitsrichtlinien."
     else:
         return False, "Leider war das Passwort nicht innerhalb der vorgegebenen Länge (Mindestens 8 Zeichen, höchstens 24 Zeichen)."
+
+
+def clean_text(message_text):
+    """
+    Method to replace the html entries in the messages.
+    We will stay with the <br> as long as we thought about something new.
+    """
+
+    # return html.escape(message_text)
+    return bleach.clean(message_text, tags=[])  # zu liberal?

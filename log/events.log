@@ -68,3 +68,5 @@ table configs already exists
 [10:16:54 23-01-2018] (Success) server.py::logout.148: Benutzer marc.friedrich94@web.de wurde erfolgreich ausgeloggt.
 [10:17:03 23-01-2018] (Success) server.py::logout.148: Benutzer marc.friedrich94@web.de wurde erfolgreich ausgeloggt.
 [10:17:11 23-01-2018] (Success) server.py::logout.148: Benutzer warwickx@web.de wurde erfolgreich ausgeloggt.
+[22:52:07 23-01-2018] (Success) server.py::logout.148: Benutzer marc.friedrich94@web.de wurde erfolgreich ausgeloggt.
+[22:52:19 23-01-2018] (Success) server.py::logout.148: Benutzer marc.friedrich94@web.de wurde erfolgreich ausgeloggt.
