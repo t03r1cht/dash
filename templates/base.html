@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %} | Dash Forum</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-grid.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-reboot.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/simple-sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/octicons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/alerts.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <style>
+        * {
+            border-radius: 0 !important;
+        }
+    </style>
+
+</head>
+<body style="background: linear-gradient(-90deg, #77C9D4, #57BC90); font-family: Roboto;">
+
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper" style="background-color: #0C8371;">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="{{ url_for('index') }}">
+                    Flash Forum
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('index') }}">Forum</a>
+            </li>
+            {% if not session["logged_in"] %}
+            <li>
+                <a href="{{ url_for('signup') }}">Sign up</a>
+            </li>
+            <li>
+                <a href="{{ url_for('signin') }}">Sign In</a>
+            </li>
+            {% endif %}
+            <li>
+                <a href="{{ url_for('about') }}">About</a>
+            </li>
+            <li>
+                <a href="{{ url_for('contact') }}">Contact</a>
+            </li>
+            {% if session["logged_in"] %}
+            <li>
+                <a href="{{ url_for('contact') }}">Profil</a>
+            </li>
+            <li>
+                <a href="{{ url_for('contact') }}">Nachrichten</a>
+            </li>
+            <li>
+                <a href="{{ url_for('contact') }}">Admin CP</a>
+            </li>
+            </br>
+            <li>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle"
+       style="background-color: #0C8371; border: none;" onload="togglebar()"><img
+            src="{{ url_for('static', filename='svg/list-unordered.svg') }}"></a>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- JavaScript -->
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+
+<!-- Menu Toggle Script -->
+<script>
+    // $(document).ready(function () {
+    //     $("#menu-toggle").trigger('click');
+    // });
+
+
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+
+
+</body>
+</html>

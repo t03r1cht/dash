@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %} Forum {% endblock %}
+
+{% block content %}
+
+<h1>Dash Forum</h1>
+<p>Dash is a modern, lightweight, open source board software.</p>
+</br>
+</br>
+{% for section in section_list %}
+<div style="border: solid; border-width: thin; padding-left: 2em; padding-top: 1em;">
+    <h2>{{ section["title"] }}</h2>
+
+
+    {% for section_preview in section["section_preview"] %}
+
+    <div class="row">
+        <div class="col-sm-9">
+            {{ section_preview["name"] }}
+        </div>
+
+        <div class="col-sm-3">
+        <span style="padding-left: 5em;">{{
+    section_preview["info"] }}</span>
+        </div>
+    </div>
+    {% endfor %}
+    </br>
+</div>
+{% endfor %}
+
+{% endblock %}
