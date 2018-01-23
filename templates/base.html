@@ -37,10 +37,10 @@
             </li>
             {% if not session["logged_in"] %}
             <li>
-                <a href="{{ url_for('signup') }}">Sign up</a>
+                <a href="{{ url_for('login') }}">Login</a>
             </li>
             <li>
-                <a href="{{ url_for('signin') }}">Sign In</a>
+                <a href="{{ url_for('register') }}">Register</a>
             </li>
             {% endif %}
             <li>
@@ -56,9 +56,11 @@
             <li>
                 <a href="{{ url_for('contact') }}">Nachrichten</a>
             </li>
+            {% if session["is_admin"] %}
             <li>
                 <a href="{{ url_for('contact') }}">Admin CP</a>
             </li>
+            {% endif %}
             </br>
             <li>
                 <a href="{{ url_for('logout') }}">Logout</a>

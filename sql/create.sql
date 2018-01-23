@@ -21,7 +21,7 @@ CREATE TABLE dash_board_db.dash_users_verification(
 ) ENGINE=INNODB;
 
 CREATE TABLE dash_board_db.dash_roles(
-  role_id INT NOT NULL,
+  role_id INT NOT NULL AUTO_INCREMENT,
   name varchar(100),
   config_board BOOLEAN,
   PRIMARY KEY (role_id)

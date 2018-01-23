@@ -5,6 +5,7 @@ from flaskext.mysql import MySQL
 from db_handler import DB_Handler
 from werkzeug.security import generate_password_hash, check_password_hash
 from config_handler import *
+from flib import *
 
 # Flask setup
 app = Flask(__name__)
@@ -42,7 +43,7 @@ def index():
     except:
         # If the user is not logged in and the board is configured to only display the forum to logged in users
         if config_handler.check_config_entry("board-access-mode", "login-required", check_values=True):
-            return redirect("signin")
+            return redirect("login")
 
     section_list = [
         {
@@ -72,20 +73,43 @@ def index():
     return render_template("board.html", section_list=section_list)
 
 
-@app.route("/signup")
-def signup():
-    return "signup"
+@app.route("/register")
+def register():
+    # boilerplate::boilerplate_no_login
+    try:
+        if session["logged_in"]:
+            return render_template("error.html", message="Please log out in order to create a new account.")
+    except:
+        pass
+
+    return render_template("signup.html")
 
 
-@app.route("/signin")
-def signin():
+@app.route("/login")
+def login():
+    # boilerplate::boilerplate_no_login
+    try:
+        if session["logged_in"]:
+            return render_template("error.html", message="You are already signed in.")
+    except:
+        pass
+
     return render_template("signin.html")
+
+
+@app.route("/auth/register")
+def handle_register():
+    pass
 
 
 @app.route("/auth/login", methods=["POST"])
 def handle_login():
     login_email = request.form["login-email"]
     login_password = request.form["login-password"]
+
+    # Check for correct parameter format
+    if not check_email(login_email) or not check_password(login_password):
+        return render_template("error.html", message="Please enter a valid E-mail and password.")
 
     db_handler = DB_Handler()
     user_record = db_handler.check_for_user_existence(mysql, login_email)
@@ -103,7 +127,8 @@ def handle_login():
     session[SESSIONV_USERNAME] = user_record["username"]
 
     # Set admin=True if the stored role_id of the user is equal to the configured board admin role_id
-    if user_record["role_id"] == check_config_entry("role_id-board-administrator"):
+
+    if check_config_entry("role_id-board-administrator", str(user_record["role_id"]), check_values=True):
         session[SESSIONV_ADMIN] = True
 
     return render_template("login_success.html", user=user_record["username"])
