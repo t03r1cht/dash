@@ -23,8 +23,10 @@ def setup_store(logger):
             """
             Role IDs for the different board roles.
             Default:
-            - 0: Administrator
-            
+            - 0: Board Administrator
+            - 1: Board Moderator
+            - 2: Board Member (verified)
+            - 3: Board Member (not verified, verification pending)
             """
             conn.execute("INSERT INTO configs (name, value) VALUES (?, ?)", ("role_id-board-administrator", "0",))
 

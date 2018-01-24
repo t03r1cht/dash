@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, redirect, request
+from flask import Flask, render_template, session, redirect, request, url_for
 from dashlogger import Logger
 import config_handler
 from flaskext.mysql import MySQL
@@ -113,16 +113,32 @@ def handle_register():
     if not check_text(reg_username):
         return render_template("register_failed.html", message="Please enter a valid username.")
 
+    # If the passwords did not match
+    if not reg_password == reg_password_confirm:
+        return render_template("register_failed.html", message="The passwords did not match. Please try again.")
+
     # If the password format (i.e. strength) was incorrect.
     if not check_password(reg_password) or not check_password(reg_password_confirm):
         return render_template("register_failed.html",
                                message="Please enter a valid password. You password must at least contain of 6 characters.")
 
-    # If the passwords did not match
-    if not reg_password == reg_password_confirm:
-        return render_template("register_failed", message="The passwords did not match. Please try again.")
-
     db_handler = DB_Handler()
+
+    user_data = {}
+    user_data["username"] = reg_username
+    user_data["email"] = reg_email
+    user_data["password"] = generate_password_hash(reg_password)
+
+    user_added = db_handler.add_new_user(mysql, user_data)
+
+    if not user_added:
+        return render_template("register_failed.html",
+                               message="The new user could not be added due to a internal error. Please try again. If the problem continues to exists, please get in touch with a support member.")
+
+    if user_added is None:
+        return render_template("register_failed.html",
+                               message="The user already exists. You can login <a href=\"" + url_for(
+                                   "login") + "\">here</a>.")
 
     return render_template("register_failed.html", message="Register ok. " + str(reg_email))
 
