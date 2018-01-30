@@ -63,6 +63,9 @@
             {% endif %}
             </br>
             <li>
+                <a href="{{ url_for('index') }}">Logged in: {{ session["username"] }}</a>
+            </li>
+            <li>
                 <a href="{{ url_for('logout') }}">Logout</a>
             </li>
             {% endif %}
@@ -97,10 +100,11 @@
     // });
 
 
-    $("#menu-toggle").click(function (e) {
+    $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
+
 </script>
 
 

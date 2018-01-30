@@ -10,14 +10,14 @@
 </br>
 {% for section in section_list %}
 <div style="border: solid; border-width: thin; padding-left: 2em; padding-top: 1em;">
-    <h2>{{ section["title"] }}</h2>
+    <h2><a href="{{url_for('show_section')}}?s={{section['section_id']}}">{{ section["title"] }}</a></h2>
 
-
-    {% for section_preview in section["section_preview"] %}
+    {% for section_preview in section["subsection_list"] %}
 
     <div class="row">
         <div class="col-sm-9">
-            {{ section_preview["name"] }}
+            <a href="{{url_for('show_subsection')}}?s={{section_preview['subsection_id']}}">{{
+                section_preview["subsection_name"] }}
         </div>
 
         <div class="col-sm-3">

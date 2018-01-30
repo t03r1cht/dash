@@ -46,32 +46,40 @@ def index():
         if config_handler.check_config_entry("board-access-mode", "login-required", check_values=True):
             return redirect("login")
 
-    section_list = [
-        {
-            "title": "General",
-            "section_preview": [{
-                "name": "Welcome to the Dash Board...",
-                "info": "Count: 1"
-            },
-                {
-                    "name": "This is the first thread on the Dash Board...",
-                    "info": "Count: 10"
-                }]
-        },
-        {
-            "title": "Announcements",
-            "section_preview": [{
-                "name": "Welcome to the Dash Board...",
-                "info": "Count: 1"
-            },
-                {
-                    "name": "his is the first thread on the Dash Board...",
-                    "info": "Count: 10"
-                }]
-        }
-    ]
+    board_content = []
 
-    return render_template("board.html", section_list=section_list)
+    db_handler = DB_Handler()
+    section_list = db_handler.get_section_list(mysql)
+
+    for section in section_list:
+        """
+        Multiple temps will be appended to the board_content object. 
+        Each temp object is a dict that will consist of the title of 
+        the section and contain a list under the "subsection_list" key that will
+        contain a list of all the subsections of the current section.
+        """
+        temp = {}
+        temp["title"] = str(section[1])
+        temp["section_id"] = section[0]
+        all_subsections = db_handler.get_subsections_for_section_id(mysql, int(section[0]))
+        subsection_list = []
+
+        for subsection in all_subsections:
+            # Dictionary that contains the meta data for a subsection
+            ss_dict = {}
+            ss_dict["subsection_id"] = subsection[0]
+            ss_dict["subsection_name"] = subsection[1]
+            ss_dict["subsection_desc"] = subsection[2]
+
+            subsection_list.append(ss_dict)
+
+        temp["subsection_list"] = subsection_list
+        print(temp)
+
+        # For each iteration for every section append the section and its subsections to the board content that is displayed on the index page
+        board_content.append(temp)
+
+    return render_template("board.html", section_list=board_content)
 
 
 @app.route("/register")
@@ -129,18 +137,24 @@ def handle_register():
     user_data["email"] = reg_email
     user_data["password"] = generate_password_hash(reg_password)
 
-    user_added = db_handler.add_new_user(mysql, user_data)
+    user_added, e = db_handler.add_new_user(mysql, user_data)
 
-    if not user_added:
+    # Catch internal error
+    if user_added is False:
+        logger.error("Error at registering new user " + str(reg_email) + " with exception:\n" + str(e))
         return render_template("register_failed.html",
                                message="The new user could not be added due to a internal error. Please try again. If the problem continues to exists, please get in touch with a support member.")
 
+    # If the user is already registered
     if user_added is None:
         return render_template("register_failed.html",
                                message="The user already exists. You can login <a href=\"" + url_for(
                                    "login") + "\">here</a>.")
 
-    return render_template("register_failed.html", message="Register ok. " + str(reg_email))
+    logger.success("New registration: " + str(reg_email))
+    return render_template("register_success.html",
+                           message="Your registration has been successful. You can login <b><a href=\"" + url_for(
+                               "login") + "\">here</a></b>.")
 
 
 @app.route("/auth/login", methods=["POST"])
@@ -190,6 +204,27 @@ def logout():
     return render_template("logout_success.html")
 
 
+@app.route("/auth/admin/cp")
+def admin_cp():
+    try:
+        session[SESSIONV_ADMIN]
+
+    except:
+        try:
+            session[SESSIONV_LOGGED_IN]
+            logger.error("User " + str(session[SESSIONV_USER]) + " tried to access the Administrator Control Panel.")
+            return render_template("error.html",
+                                   message="You need administrator privileges to access the Administrator Control Panel. This incident will be reported.")
+        except:
+            logger.error("Unauthenticated user tried to access the Administrator Control Panel.")
+            return render_template("error.html",
+                                   message="You need administrator privileges to access the Administrator Control Panel. This incident will be reported.")
+
+    logger.success("Administrator " + str(session[SESSIONV_USER]) + " accessed the Administrator Control Panel.")
+
+    return render_template("admin_cp.html")
+
+
 @app.route("/about")
 def about():
     return "about"
@@ -198,6 +233,32 @@ def about():
 @app.route("/contact")
 def contact():
     return "contact"
+
+
+@app.route("/section")
+def show_section():
+    section_id = request.args.get("s")
+
+    return "section=" + str(section_id)
+
+
+@app.route("/subsection")
+def show_subsection():
+    subsection_id = request.args.get("s")
+
+    return "subsection=" + str(subsection_id)
+
+
+"""
+#############################
+Error Handler
+#############################
+"""
+
+
+@app.errorhandler(404)
+def not_found_error(error):
+    return redirect(url_for("index"))
 
 
 if __name__ == '__main__':

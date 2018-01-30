@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %} Administrator Control Panel {% endblock %}
+
+{% block content %}
+
+<h3>Sections</h3>
+</br>
+<form>
+    <div class="form-group ">
+        <label for="add_new_section">Add new Section</label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="add_new_section" aria-describedby="add_new_section_help"
+                   placeholder="Add new Section">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

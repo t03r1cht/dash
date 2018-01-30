@@ -1,6 +1,7 @@
 from flask import Flask
 from flaskext.mysql import MySQL
 import datetime
+import json
 
 
 class DB_Handler:
@@ -18,9 +19,7 @@ class DB_Handler:
         conn = mysql.connect()
         cursor = conn.cursor()
 
-        cursor.execute(
-            "SELECT username, email, password, uid, role_id FROM " + self.DB_TABLE_USERS + " WHERE email = %s",
-            (email,))
+        cursor.callproc("dash_board_db.check_for_user_existence", (email,))
 
         data = cursor.fetchone()
 
@@ -44,15 +43,10 @@ class DB_Handler:
         cursor = conn.cursor()
 
         # Check if the user already exists
-        print("email=" + str(user_data["email"]))
-        cursor.execute(
-            "SELECT username, email, password, uid, role_id FROM " + self.DB_TABLE_USERS + " WHERE email = %s",
-            (str(user_data["email"]),))
-
-        user_record = cursor.fetchone()
-        if user_record is None:
+        user_record = self.check_for_user_existence(mysql, user_data["email"])
+        if user_record is not None:
             print("user already exists")
-            return None
+            return None, None
 
         # role_id = 3: Board Member (not verified)
         role_id = 3
@@ -64,21 +58,56 @@ class DB_Handler:
         user_data["profile_data"] = profile_data
 
         try:
-            cursor.execute(
-                "INSERT INTO " + self.DB_TABLE_USERS + " (username, email, password, creation_date, role_id, profile_data) VALUES (%s, %s, %s, %s, %s, %s)",
-                (user_data["username"],
-                 user_data["email"],
-                 user_data["password"],
-                 user_data["creation_date"],
-                 user_data["role_id"],
-                 user_data["profile_data"]
-                 ))
-
-            cursor.commit()
+            cursor.callproc("dash_board_db.add_new_user", (user_data["username"],
+                                                           user_data["email"],
+                                                           user_data["password"],
+                                                           user_data["creation_date"],
+                                                           user_data["role_id"],
+                                                           user_data["profile_data"]))
+            conn.commit()
             conn.close()
-            return user_data
+            return user_data, None
 
         except Exception as e:
             conn.close()
             print("error=add_new_user:\n" + str(e))
-            return False
+            return False, e
+
+    def get_section_list(self, mysql):
+        conn = mysql.connect()
+        cursor = conn.cursor()
+
+        try:
+            cursor.callproc("dash_board_db.get_section_list")
+
+            data = cursor.fetchall()
+
+            if cursor.rowcount == 0:
+                conn.close()
+                return None
+
+            conn.close
+            return data
+        except Exception as e:
+            conn.close()
+            return None
+
+    def get_subsections_for_section_id(self, mysql, section_id):
+        conn = mysql.connect()
+        cursor = conn.cursor()
+
+        try:
+            cursor.callproc("get_subsections_for_section_id", (section_id,))
+
+            data = cursor.fetchall()
+
+            if cursor.rowcount == 0:
+                conn.close()
+                return None
+
+            conn.close()
+            return data
+
+        except Exception as e:
+            conn.close()
+            return None

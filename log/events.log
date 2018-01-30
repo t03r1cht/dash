@@ -72,3 +72,40 @@ table configs already exists
 [22:52:19 23-01-2018] (Success) server.py::logout.148: Benutzer marc.friedrich94@web.de wurde erfolgreich ausgeloggt.
 [08:23:01 24-01-2018] (Success) server.py::logout.173: Benutzer marc.friedrich94@web.de wurde erfolgreich ausgeloggt.
 [08:56:24 24-01-2018] (Success) server.py::logout.189: Benutzer marc.friedrich94@web.de wurde erfolgreich ausgeloggt.
+[21:05:13 26-01-2018] (Error) server.py::handle_register.136: Error at registering new user marc-friedrich94@web.de with exception:
+'Cursor' object has no attribute 'commit'
+[21:09:03 26-01-2018] (Success) server.py::handle_register.146: New registration: marc-friedrich94@web.de
+[21:10:56 26-01-2018] (Success) server.py::logout.195: Benutzer marc-friedrich94@web.de wurde erfolgreich ausgeloggt.
+[21:11:10 26-01-2018] (Success) server.py::logout.195: Benutzer marc.friedrich94@web.de wurde erfolgreich ausgeloggt.
+[13:52:13 30-01-2018] (Success) server.py::logout.195: Benutzer marc.friedrich94@web.de wurde erfolgreich ausgeloggt.
+[13:52:24 30-01-2018] (Success) server.py::logout.195: Benutzer marc-friedrich94@web.de wurde erfolgreich ausgeloggt.
+[14:13:17 30-01-2018] (Success) server.py::logout.195: Benutzer marc.friedrich94@web.de wurde erfolgreich ausgeloggt.
+[14:13:39 30-01-2018] (Success) server.py::logout.195: Benutzer warwickx@web.de wurde erfolgreich ausgeloggt.
+[14:22:35 30-01-2018] (Success) server.py::logout.195: Benutzer marc.friedrich94@web.de wurde erfolgreich ausgeloggt.
+[14:22:47 30-01-2018] (Success) server.py::logout.195: Benutzer marc.friedrich94@web.de wurde erfolgreich ausgeloggt.
+[14:33:53 30-01-2018] (Success) server.py::logout.195: Benutzer marc.friedrich94@web.de wurde erfolgreich ausgeloggt.
+[14:34:01 30-01-2018] (Success) server.py::handle_register.146: New registration: a@a.de
+[14:34:18 30-01-2018] (Success) server.py::logout.195: Benutzer a@a.de wurde erfolgreich ausgeloggt.
+[14:48:30 30-01-2018] (Success) server.py::logout.195: Benutzer marc.friedrich94@web.de wurde erfolgreich ausgeloggt.
+[14:48:51 30-01-2018] (Error) server.py::admin_cp.207: User warwickx@web.de tried to access the Administrator Control Panel.
+[14:49:03 30-01-2018] (Success) server.py::logout.195: Benutzer warwickx@web.de wurde erfolgreich ausgeloggt.
+[14:49:04 30-01-2018] (Error) server.py::admin_cp.211: Unauthenticated user tried to access the Administrator Control Panel.
+[14:50:07 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[14:50:26 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[14:50:57 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[14:51:32 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[14:56:01 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[14:57:52 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[15:00:02 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[15:00:26 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[15:01:00 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[15:01:01 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[15:02:32 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[15:02:42 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[15:03:22 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[15:03:52 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[15:04:12 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[15:04:38 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[15:04:48 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[15:04:55 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.
+[15:04:56 30-01-2018] (Success) server.py::admin_cp.215: Administrator marc.friedrich94@web.de accessed the Administrator Control Panel.

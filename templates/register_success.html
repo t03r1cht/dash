@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Login failed {% endblock %}
+{% block title %} Register failed {% endblock %}
 
 {% block content %}
 
@@ -130,9 +130,9 @@ form button:hover {
 
 <div class="wrapper">
     <div class="container">
-        <div class="alert-message alert-message-danger">
-            <h4>Login failed</h4>
-            <p>The username and/or password did not match. Please try again.</p>
+        <div class="alert-message alert-message-success">
+            <h4>Success!</h4>
+            <p>{{ message|safe }}</p>
         </div>
     </div>
 </div>
